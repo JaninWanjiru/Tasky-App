@@ -1,9 +1,10 @@
-import {Router} from 'express';
-import verifyUserRegistration from '../middlewares/validateUserRegistration';
-import {register} from '../controllers/auth.controller';
+import { Router } from "express";
+import verifyUserRegistration from "../middlewares/validateUserRegistration";
+import verifyPassStrength from "../middlewares/validatePasswordStrength";
+import { register } from "../controllers/auth.controller";
 
 const router = Router();
 
-router.post('/register', verifyUserRegistration, register);
+router.post("/register", verifyUserRegistration, verifyPassStrength, register);
 
 export default router;
