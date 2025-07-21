@@ -60,5 +60,35 @@ export const logout = async (_req: Request, res: Response) => {
   }
 }
 
+// updating user password
+export const updatePassword = async (req: Request, res: Response) => {
+  try {
+    const { current, new: newPassword } = req.body;
+    const { id } = req.user;
+    
+    const user = await client.user.findUnique({ where: { id } });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+    
+    const validPassword = await bcrypt.compare(current, user.password);
+    if (!validPassword) {
+      res.status(401).json({ message: "Current password is incorrect" });
+      return;
+    }
+    
+    const hashedNewPassword = await bcrypt.hash(newPassword, 9);
+    await client.user.update({
+      where: { id },
+      data: { password: hashedNewPassword },
+    });
+    
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (e) {
+    res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
+  }
+};
+
 
 
