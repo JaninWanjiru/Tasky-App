@@ -15,3 +15,18 @@ export const createTask = async (req: Request, res: Response) => {
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
   }
 };
+
+// getting a specific user's tasks
+export const getUserTasks = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.user;
+    const tasks = await client.task.findMany({
+      where: {
+        userId: id,
+      }
+    });
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
+  }
+};
