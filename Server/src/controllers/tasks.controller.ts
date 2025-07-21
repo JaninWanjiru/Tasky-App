@@ -50,3 +50,21 @@ export const getSpecificTask = async (req: Request, res: Response) => {
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
   }
 };
+
+// updating a task
+export const updateTask = async (req: Request, res: Response) => {
+  try {
+    const { taskId } = req.params;
+    const { title, description } = req.body;
+    const updatedTask = await client.task.update({
+      where: { id: taskId },
+      data: {
+        title: title && title,
+        description: description && description
+      },
+    });
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
+  }
+};
