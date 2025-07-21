@@ -30,3 +30,23 @@ export const getUserTasks = async (req: Request, res: Response) => {
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
   }
 };
+
+// getting a specific task
+export const getSpecificTask = async (req: Request, res: Response) => {
+  try {
+    const { taskId } = req.params;
+    const { id } = req.user;
+    const task = await client.task.findFirst({
+      where: {
+        AND: [{id: taskId}, {userId: id}, {isDeleted: false}]
+      },
+    })
+    if (!task) {
+      res.status(404).json({ message: "Task not found" });
+      return;
+    }
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
+  }
+};
