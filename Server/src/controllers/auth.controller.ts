@@ -59,3 +59,6 @@ export const logout = async (_req: Request, res: Response) => {
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
   }
 }
+
+
+
