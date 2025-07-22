@@ -18,20 +18,20 @@ const client = new QueryClient()
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#EFD9DA", // Blush Pearl
-      contrastText: "#2D2D2D",
+      main: "#FE7743",         
+      contrastText: "#FFFFFF", 
     },
     secondary: {
-      main: "#C6B8D9", // Muted Lavender
-      contrastText: "#ffffff",
+      main: "#273F4F",         
+      contrastText: "#FFFFFF",
     },
     background: {
-      default: "#FAFAF6", // Ivory Haze
-      paper: "#F6F4F1",   // Snow Drift
+      default: "#EFEEEA",     
+      paper: "#FFFFFF",        
     },
     text: {
-      primary: "#2D2D2D", // Charcoal Ash
-      secondary: "#78718C", // Lavender Steel
+      primary: "#273F4F",      
+      secondary: "#4F4F4F",    
     },
   },
   typography: {
