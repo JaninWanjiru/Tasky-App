@@ -1,7 +1,11 @@
-import { AppBar, Toolbar, Typography, Box, Stack } from "@mui/material";
-import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+// import useUserStore from "../store/userStore";
+// import LoggedInHeader from "./LoggedInHeader";
+import LoggedOutHeader from "./LoggedOutHeader";
 
 function Header() {
+  // const { user } = useUserStore();
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -9,34 +13,8 @@ function Header() {
           Tasky
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        <Stack direction="row" spacing={3}>
-          <Link to="/login">
-            <button
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#273F4F",
-                color: "#fff",
-                border: "none",
-                borderRadius: 6,
-              }}
-            >
-              Login
-            </button>
-          </Link>
-          <Link to="/signup">
-            <button
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#273F4F",
-                color: "#fff",
-                border: "none",
-                borderRadius: 6,
-              }}
-            >
-              Sign Up
-            </button>
-          </Link>
-        </Stack>
+        {/* {user ? <LoggedInHeader user={user} /> :  */}
+        <LoggedOutHeader />
       </Toolbar>
     </AppBar>
   );
