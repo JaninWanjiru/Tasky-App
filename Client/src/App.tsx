@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import LandingPage from "./pages/LandingPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
+import Protected from "./components/Protected";
 import NewTaskPage from "./pages/NewTaskPage";
 import TasksPage from "./pages/TasksPage";
 import UpdateTaskPage from "./pages/UpdateTaskPage";
@@ -55,12 +56,12 @@ function App() {
           <Route path="/" element={<LandingPage/>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/new-task" element={<NewTaskPage />} />
-          <Route path="/tasks" element={<TasksPage />} />
-          <Route path="/update-task" element={<UpdateTaskPage />} />
-          <Route path="/completed-tasks" element={<CompletedTasksPage />} />
-          <Route path="/trash" element={<TrashPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/new-task" element={<Protected><NewTaskPage /></Protected>} />
+          <Route path="/tasks" element={<Protected><TasksPage /></Protected>} />
+          <Route path="/update-task" element={<Protected><UpdateTaskPage /></Protected>} />
+          <Route path="/completed-tasks" element={<Protected><CompletedTasksPage /></Protected>} />
+          <Route path="/trash" element={<Protected><TrashPage /></Protected>} />
+          <Route path="/profile" element={<Protected><ProfilePage /></Protected>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
