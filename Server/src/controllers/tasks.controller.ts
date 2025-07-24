@@ -56,7 +56,7 @@ export const updateTask = async (req: Request, res: Response) => {
   try {
     const { taskId } = req.params;
     const { title, description } = req.body;
-    const updatedTask = await client.task.update({
+    await client.task.update({
       where: { id: taskId },
       data: {
         title: title && title,
@@ -69,4 +69,25 @@ export const updateTask = async (req: Request, res: Response) => {
   }
 };
 
+// marking a task as completed
+export const completeTask = async (req: Request, res: Response) => {
+  try {
+    const { id: userId } = req.user;
+    const { id: taskId } = req.params;
+
+    const task = await client.task.updateMany({
+      where: { id: taskId, userId, isDeleted: false, isCompleted: false },
+      data: { isCompleted: true }
+    });
+
+    if (task.count === 0) {
+      res.status(404).json({ message: "Task not found or already completed" });
+      return
+    }
+
+    res.status(200).json({ message: "Task marked as completed" });
+  } catch (e) {
+    res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
+  }
+};
 
