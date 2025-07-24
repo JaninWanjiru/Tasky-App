@@ -60,7 +60,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/new-task" element={<Protected><NewTaskPage /></Protected>} />
           <Route path="/tasks" element={<Protected><TasksPage /></Protected>} />
-          <Route path="/update-task" element={<Protected><UpdateTaskPage /></Protected>} />
+          <Route path="/update-task/:id" element={<Protected><UpdateTaskPage /></Protected>} />
           <Route path="/completed-tasks" element={<Protected><CompletedTasksPage /></Protected>} />
           <Route path="/trash" element={<Protected><TrashPage /></Protected>} />
           <Route path="/profile" element={<Protected><ProfilePage /></Protected>} />

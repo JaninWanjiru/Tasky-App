@@ -63,7 +63,7 @@ export const updateTask = async (req: Request, res: Response) => {
         description: description && description
       },
     });
-    res.status(200).json(updatedTask);
+    res.status(200).json({ message: "Task updated successfully"});
   } catch (error) {
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
   }

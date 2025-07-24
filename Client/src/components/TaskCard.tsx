@@ -11,7 +11,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { RiEdit2Line } from "react-icons/ri";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { LiaTrashRestoreAltSolid } from "react-icons/lia";
-
+import { useNavigate } from "react-router-dom";
 type CardProps = {
   id: string;
   title: string;
@@ -20,7 +20,13 @@ type CardProps = {
   isCompleted: boolean; 
 };
 
-function TaskCard({ title, description, isDeleted, isCompleted }: CardProps) {
+function TaskCard({ id, title, description, isDeleted, isCompleted }: CardProps) {
+  const navigate = useNavigate();
+
+
+  function handleUpdateTask() {
+    navigate(`/update-task/${id}`)
+  }
   return (
     <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
       <Card
@@ -78,6 +84,7 @@ function TaskCard({ title, description, isDeleted, isCompleted }: CardProps) {
               startIcon={<RiEdit2Line />}
               variant="outlined"
               size="small"
+              onClick={handleUpdateTask}
             >
               Edit
             </Button>
