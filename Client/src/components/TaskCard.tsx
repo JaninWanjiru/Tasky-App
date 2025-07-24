@@ -12,6 +12,10 @@ import { RiEdit2Line } from "react-icons/ri";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { LiaTrashRestoreAltSolid } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+
 type CardProps = {
   id: string;
   title: string;
@@ -20,12 +24,32 @@ type CardProps = {
   isCompleted: boolean; 
 };
 
-function TaskCard({ id, title, description, isDeleted, isCompleted }: CardProps) {
+function TaskCard({ id: taskId, title, description, isDeleted, isCompleted }: CardProps) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
+  const { isPending, mutate } = useMutation({
+    mutationKey: ["delete-task"],
+    mutationFn: async () => {
+      const response = await axiosInstance.delete(`/api/tasks/${taskId}`);
+      return response.data;
+    },
+    onError: () => {
+      toast.error('Could not delete task')
+    },
+    onSuccess: () => {
+      toast.success('Task moved to trash', { theme: "light", position: "top-center" });
+      queryClient.invalidateQueries({queryKey: ["get-tasks"]})
+    },
+  });
+
+
+  function handleDeleteTask() {
+    mutate()
+  }
 
   function handleUpdateTask() {
-    navigate(`/update-task/${id}`)
+    navigate(`/update-task/${taskId}`)
   }
   return (
     <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
@@ -92,6 +116,8 @@ function TaskCard({ id, title, description, isDeleted, isCompleted }: CardProps)
               startIcon={<MdOutlineDeleteForever />}
               variant="contained"
               size="small"
+              onClick={handleDeleteTask}
+              loading={isPending}
             >
               Delete
             </Button>

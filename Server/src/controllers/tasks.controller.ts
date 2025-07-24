@@ -74,17 +74,10 @@ export const completeTask = async (req: Request, res: Response) => {
   try {
     const { id: userId } = req.user;
     const { id: taskId } = req.params;
-
-    const task = await client.task.updateMany({
+    await client.task.updateMany({
       where: { id: taskId, userId, isDeleted: false, isCompleted: false },
       data: { isCompleted: true }
     });
-
-    if (task.count === 0) {
-      res.status(404).json({ message: "Task not found or already completed" });
-      return
-    }
-
     res.status(200).json({ message: "Task marked as completed" });
   } catch (e) {
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
@@ -102,7 +95,6 @@ export const getCompletedTasks = async (req: Request, res: Response) => {
         isCompleted: true,
       },
     });
-
     res.status(200).json(completedTasks);
   } catch (error) {
     res.status(500).json({ message: "Could not fetch completed tasks" });
@@ -114,19 +106,28 @@ export const incompleteTask = async (req: Request, res: Response) => {
   try {
     const { id: userId } = req.user;
     const { id: taskId } = req.params;
-
-    const task = await client.task.updateMany({
+    await client.task.updateMany({
       where: { id: taskId, userId, isDeleted: false, isCompleted: true },
       data: { isCompleted: false }
     });
-
-    if (task.count === 0) {
-      res.status(404).json({ message: "Task not found or already incomplete" });
-      return
-    }
-
     res.status(200).json({ message: "Task marked as incomplete" });
   } catch (e) {
+    res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
+  }
+};
+
+// marking a task as deleted
+export const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const { taskId } = req.params;
+
+    // Only update if the task belongs to the user and is not already deleted
+    await client.task.updateMany({
+      where: { id: taskId },
+      data: { isDeleted: true },
+    });
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (error) {
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
   }
 };

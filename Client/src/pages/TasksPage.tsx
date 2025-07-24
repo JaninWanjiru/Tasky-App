@@ -39,7 +39,7 @@ function TasksPage() {
               isDeleted: boolean;
               isCompleted: boolean;
             }) => (
-              <TaskCard
+              task.isDeleted === false && <TaskCard
                 key={task.id}
                 id={task.id}
                 title={task.title}
