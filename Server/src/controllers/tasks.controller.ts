@@ -16,7 +16,7 @@ export const createTask = async (req: Request, res: Response) => {
   }
 };
 
-// getting a specific user's tasks
+// getting all tasks belonging to a specific user
 export const getUserTasks = async (req: Request, res: Response) => {
   try {
     const { id } = req.user;

@@ -1,9 +1,17 @@
-import {Box, Card, CardContent, Typography, TextField, Button, Alert} from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+} from "@mui/material";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import axiosInstance from "../api/axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 function NewTaskPage() {
   const [title, setTitle] = useState("");
@@ -12,10 +20,7 @@ function NewTaskPage() {
 
   const { isPending, mutate } = useMutation({
     mutationKey: ["create-task"],
-    mutationFn: async (taskData: {
-      title: string;
-      description: string;
-    }) => {
+    mutationFn: async (taskData: { title: string; description: string }) => {
       const response = await axiosInstance.post("/api/tasks", taskData);
       return response.data;
     },
@@ -27,23 +32,27 @@ function NewTaskPage() {
       }
     },
     onSuccess: () => {
-      toast.success('Task created successfully', {
+      toast.success("Task created successfully", {
         theme: "light",
-        position: "top-center"
-      })
-      setTitle("")
-      setDescription("")
+        position: "top-center",
+      });
+      setTitle("");
+      setDescription("");
     },
   });
 
   function handleAddTask() {
+    setError("");
     const newTask = { title: title, description: description };
     mutate(newTask);
   }
 
-  return(
+  return (
     <Box sx={{ bgcolor: "#fff", pt: 2 }}>
-      <Card elevation={3} sx={{ maxWidth: 500, mx: "auto", my: 5, borderRadius: 3}}>
+      <Card
+        elevation={3}
+        sx={{ maxWidth: 500, mx: "auto", my: 5, borderRadius: 3 }}
+      >
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h5" textAlign="center" fontWeight="bold" mb={1}>
             Plan Your Task
@@ -52,12 +61,17 @@ function NewTaskPage() {
             Give it a title, set a deadline, and track it with ease.
           </Typography>
 
-          {error && (<Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>)}
+          {error && (
+            <Alert severity="error" sx={{ mb: 1 }}>
+              {error}
+            </Alert>
+          )}
 
           <Box component="form">
             <Typography color="primary">Title</Typography>
             <TextField
               fullWidth
+              type="text"
               size="small"
               placeholder="Enter task title"
               value={title}
@@ -65,10 +79,11 @@ function NewTaskPage() {
               required
               sx={{ mb: 2 }}
             />
-            
+
             <Typography color="primary">Description</Typography>
             <TextField
               fullWidth
+              type="text"
               size="small"
               placeholder="Brief description of your task"
               value={description}

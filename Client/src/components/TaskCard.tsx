@@ -1,7 +1,98 @@
-function TaskCard() {
+import {
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+  Divider,
+} from "@mui/material";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { RiEdit2Line } from "react-icons/ri";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { LiaTrashRestoreAltSolid } from "react-icons/lia";
+
+type CardProps = {
+  id: string;
+  title: string;
+  description: string;
+  isDeleted: boolean;
+  isCompleted: boolean; 
+};
+
+function TaskCard({ title, description, isDeleted, isCompleted }: CardProps) {
   return (
-    <div>TaskCard</div>
-  )
+    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
+      <Card
+        elevation={3}
+        sx={{
+          maxWidth: 450,
+          borderRadius: 3,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          p: 2,
+          height: "100%",
+          backgroundColor: isCompleted ? "#daf6e2ff" : "#fff",
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h6"
+            color="primary"
+            fontWeight="bold"
+            gutterBottom
+            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+          >
+            {isCompleted && (
+              <CheckCircleOutlineIcon color="success" fontSize="small" />
+            )}
+            {title}
+          </Typography>
+
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mb: 2 }}
+          >
+            {description}
+          </Typography>
+
+          <Divider sx={{ mt: 2 }} />
+
+        </CardContent>
+
+        {isDeleted ? (
+          <CardActions sx={{ justifyContent: "space-between" }}>
+            <Button
+              startIcon={<LiaTrashRestoreAltSolid />}
+              variant="outlined"
+              size="small"
+            >
+              Restore
+            </Button>
+          </CardActions>
+        ) : (
+          <CardActions sx={{ justifyContent: "space-between", p: 2 }}>
+            <Button
+              startIcon={<RiEdit2Line />}
+              variant="outlined"
+              size="small"
+            >
+              Edit
+            </Button>
+            <Button
+              startIcon={<MdOutlineDeleteForever />}
+              variant="contained"
+              size="small"
+            >
+              Delete
+            </Button>
+          </CardActions>
+        )}
+      </Card>
+    </Grid>
+  );
 }
 
 export default TaskCard;
