@@ -14,6 +14,7 @@ import UpdateTaskPage from "./pages/UpdateTaskPage";
 import CompletedTasksPage from "./pages/CompletedTasksPage";
 import TrashPage from "./pages/TrashPage";
 import ProfilePage from "./pages/ProfilePage";
+import Footer from "./components/Footer";
 
 
 const client = new QueryClient()
@@ -65,6 +66,7 @@ function App() {
           <Route path="/trash" element={<Protected><TrashPage /></Protected>} />
           <Route path="/profile" element={<Protected><ProfilePage /></Protected>} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
     </QueryClientProvider>

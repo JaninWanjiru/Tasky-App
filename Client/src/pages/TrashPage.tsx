@@ -28,7 +28,7 @@ function TrashPage() {
     return <Loader msg="Fetching, please wait..." />;
   }
   return (
-    <Box component="section" mt={2}>
+    <Box component="section" mt={2} minHeight="75vh">
       <Grid container justifyContent="center" spacing={4} m={3}>
         {data &&
           data.map(
@@ -38,16 +38,17 @@ function TrashPage() {
               description: string;
               isDeleted: boolean;
               isCompleted: boolean;
-            }) => (
-              task.isDeleted === true && <TaskCard
-                key={task.id}
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                isDeleted={task.isDeleted}
-                isCompleted={task.isCompleted}
-              />
-            )
+            }) =>
+              task.isDeleted === true && (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  description={task.description}
+                  isDeleted={task.isDeleted}
+                  isCompleted={task.isCompleted}
+                />
+              )
           )}
       </Grid>
     </Box>
