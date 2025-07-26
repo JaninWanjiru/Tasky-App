@@ -1,5 +1,16 @@
-import { Stack, Typography, Avatar } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Avatar,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  Box,
+} from "@mui/material";
+import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 interface LoggedInHeaderProps {
   user: {
@@ -10,6 +21,8 @@ interface LoggedInHeaderProps {
 }
 
 function LoggedInHeader({ user }: LoggedInHeaderProps) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const navLinks = [
     { label: "Tasks", path: "/tasks" },
     { label: "New Task", path: "/new-task" },
@@ -18,26 +31,77 @@ function LoggedInHeader({ user }: LoggedInHeaderProps) {
     { label: "Profile", path: "/profile" },
   ];
 
-  const initials = (user.firstName && user.firstName[0] ? user.firstName[0].toUpperCase() : "") +
-                    (user.lastName && user.lastName[0] ? user.lastName[0].toUpperCase() : "");
+  const initials =
+    (user.firstName?.[0]?.toUpperCase() || "") +
+    (user.lastName?.[0]?.toUpperCase() || "");
 
   return (
-    <Stack direction="row" spacing={3} alignItems="center">
-      {navLinks.map((link) => (
-        <Link key={link.label} to={link.path} style={{ textDecoration: "none" }}>
-          <Typography variant="body2" sx={{ color: "#fff" }}>
-            {link.label}
-          </Typography>
-        </Link>
-      ))}
-      <Typography variant="body2" sx={{ color: "#fff", mr: 1 }}>
-        Welcome, {user.firstName}
-      </Typography>
-      <Avatar src={user.avatar}>
-        {!user.avatar && initials}
-      </Avatar>
-    </Stack>
+    <>
+      {/* Desktop navigation */}
+      <Stack
+        direction="row"
+        spacing={3}
+        alignItems="center"
+        sx={{ display: { xs: "none", md: "flex" } }}
+      >
+        {navLinks.map((link) => (
+          <Link
+            key={link.label}
+            to={link.path}
+            style={{ textDecoration: "none" }}
+          >
+            <Typography variant="body2" sx={{ color: "#273F4F" }}>
+              {link.label}
+            </Typography>
+          </Link>
+        ))}
+        <Typography variant="body2" sx={{ color: "#fff", mr: 1 }}>
+          Welcome, {user.firstName}
+        </Typography>
+        <Avatar sx={{ backgroundColor: "#273F4F"}} src={user.avatar}>{!user.avatar && initials}</Avatar>
+      </Stack>
+
+      {/* Mobile menu button */}
+      <Box
+        sx={{
+          display: { xs: "flex", md: "none" },
+          alignItems: "center",
+          justifyContent: "right",
+          width: "100%",
+        }}
+      >
+        <Typography variant="body2" sx={{ color: "#fff", mr: 2 }}>
+          Welcome, {user.firstName}
+        </Typography>
+        <Avatar sx={{ mr: 1, backgroundColor: "#273F4F" }} src={user.avatar}>
+          {!user.avatar && initials}
+        </Avatar>
+        <IconButton color="inherit" onClick={() => setDrawerOpen(true)}>
+          <IoMenu />
+        </IconButton>
+        <Drawer
+          anchor="right"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+        >
+          <Box sx={{ width: 180 }} onClick={() => setDrawerOpen(false)}>
+            <List>
+              {navLinks.map((link) => (
+                <ListItem
+                  key={link.label}
+                  component={Link}
+                  to={link.path}
+                  sx={{ color: "#273F4F" }}
+                >
+                  {link.label}
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+      </Box>
+    </>
   );
 }
 
-export default LoggedInHeader; 
+export default LoggedInHeader;
