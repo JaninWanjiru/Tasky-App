@@ -7,10 +7,12 @@ import {
   List,
   ListItem,
   Box,
+  Button,
 } from "@mui/material";
 import { IoMenu } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import useUser from "../store/userStore";
 
 interface LoggedInHeaderProps {
   user: {
@@ -22,7 +24,13 @@ interface LoggedInHeaderProps {
 
 function LoggedInHeader({ user }: LoggedInHeaderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const logoutUser = useUser((state) => state.logoutUser);
+  const navigate = useNavigate();
 
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/");
+  };
   const navLinks = [
     { label: "Tasks", path: "/tasks" },
     { label: "New Task", path: "/new-task" },
@@ -55,10 +63,29 @@ function LoggedInHeader({ user }: LoggedInHeaderProps) {
             </Typography>
           </Link>
         ))}
-        <Typography variant="body2" sx={{ color: "#fff", mr: 1 }}>
+        <Typography
+          variant="body2"
+          sx={{ color: "#fff", mr: 1, fontWeight: "bold" }}
+        >
           Welcome, {user.firstName}
         </Typography>
-        <Avatar sx={{ backgroundColor: "#273F4F"}} src={user.avatar}>{!user.avatar && initials}</Avatar>
+        <Avatar sx={{ backgroundColor: "#273F4F" }} src={user.avatar}>
+          {!user.avatar && initials}
+        </Avatar>
+        <Button
+          variant="outlined"
+          onClick={handleLogout}
+          sx={{
+            color: "#fff",
+            ml: 2,
+            backgroundColor: "#516878ff",
+            borderRadius: "5px",
+            textTransform: "capitalize",
+            fontWeight: "bold",
+          }}
+        >
+          Log Out
+        </Button>
       </Stack>
 
       {/* Mobile menu button */}
@@ -70,7 +97,10 @@ function LoggedInHeader({ user }: LoggedInHeaderProps) {
           width: "100%",
         }}
       >
-        <Typography variant="body2" sx={{ color: "#fff", mr: 2 }}>
+        <Typography
+          variant="body2"
+          sx={{ color: "#fff", mr: 2, fontWeight: "bold" }}
+        >
           Welcome, {user.firstName}
         </Typography>
         <Avatar sx={{ mr: 1, backgroundColor: "#273F4F" }} src={user.avatar}>
@@ -96,6 +126,12 @@ function LoggedInHeader({ user }: LoggedInHeaderProps) {
                   {link.label}
                 </ListItem>
               ))}
+              <ListItem
+                onClick={handleLogout}
+                sx={{ color: "#FE7743", cursor: "pointer" }}
+              >
+                Log Out
+              </ListItem>
             </List>
           </Box>
         </Drawer>
