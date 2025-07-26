@@ -81,13 +81,13 @@ function UpdateTaskPage() {
   }
 
   return (
-    <Box component="section">
+    <Box component="section" minHeight="100vh">
       <Paper
-        elevation={2}
-        sx={{ maxWidth: 600, mx: "auto", my: 7, p: 3, borderRadius: 2 }}
+        elevation={5}
+        sx={{ maxWidth: 520, mx: "auto", my: 7, p: 3, borderRadius: 2 }}
       >
         <Typography variant="h6" textAlign="center" mb={2}>
-          Update your task here
+          Optimize your task
         </Typography>
 
         <Box component="form">

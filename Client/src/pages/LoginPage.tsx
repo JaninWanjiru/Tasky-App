@@ -42,8 +42,8 @@ function LoginPage() {
   }
   
   return (
-    <Box component="form" sx={{ bgcolor: "#fff", px: { xs: 2, sm: 0 } }}>
-      <Card elevation={3} sx={{ maxWidth: 400, mx: "auto", mt: 8, borderRadius: 4 }}>
+    <Box component="form" sx={{ bgcolor: "#fff", px: { xs: 2, sm: 0 } }} minHeight="100vh">
+      <Card elevation={5} sx={{ maxWidth: 400, mx: "auto", mt: 8, borderRadius: 4 }}>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h5" fontWeight="bold" align="center" gutterBottom>
             Welcome Back, Achiever
@@ -76,14 +76,16 @@ function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               sx={{ mb: 2 }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
-                      {showPassword ? <FaRegFaceRollingEyes /> : <PiSmileyXEyes />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                        {showPassword ? <FaRegFaceRollingEyes /> : <PiSmileyXEyes />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
             <Button

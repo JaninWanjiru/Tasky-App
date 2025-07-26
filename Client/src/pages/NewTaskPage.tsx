@@ -48,9 +48,9 @@ function NewTaskPage() {
   }
 
   return (
-    <Box sx={{ bgcolor: "#fff", pt: 2 }}>
+    <Box sx={{ bgcolor: "#fff", pt: 2 }} minHeight="100vh">
       <Card
-        elevation={3}
+        elevation={5}
         sx={{ maxWidth: 500, mx: "auto", my: 5, borderRadius: 3 }}
       >
         <CardContent sx={{ p: 4 }}>

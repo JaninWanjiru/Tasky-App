@@ -28,18 +28,35 @@ function TasksPage() {
     return <Loader msg="Fetching, please wait..." />;
   }
   return (
-    <Box component="section" mt={2}>
+    <Box component="section" mt={2} minHeight="100vh">
       <Grid container justifyContent="center" spacing={4} m={3}>
-        {data &&
-          data.map(
-            (task: {
+        {data && data.filter((task: {
+          id: string;
+          title: string;
+          description: string;
+          isDeleted: boolean;
+          isCompleted: boolean;
+        }) => task.isDeleted ===false && task.isCompleted ===false).length === 0 ? (
+          <Typography variant="h6" align="center" color="secondary">
+            No active tasks yet
+          </Typography>
+        ) : (
+          data && data
+            .filter((task: {
+              id: string;
+              title: string;
+              description: string;
+              isDeleted: boolean;
+              isCompleted: boolean;
+            }) => task.isDeleted ===false && task.isCompleted ===false)
+            .map((task: {
               id: string;
               title: string;
               description: string;
               isDeleted: boolean;
               isCompleted: boolean;
             }) => (
-              task.isDeleted === false && <TaskCard
+              <TaskCard
                 key={task.id}
                 id={task.id}
                 title={task.title}
@@ -47,8 +64,8 @@ function TasksPage() {
                 isDeleted={task.isDeleted}
                 isCompleted={task.isCompleted}
               />
-            )
-          )}
+            ))
+        )}
       </Grid>
     </Box>
   );

@@ -69,6 +69,7 @@ function SignUpPage() {
 
   return (
     <Box
+      minHeight="100vh"
       sx={{
         bgcolor: "#fff",
         minHeight: "90vh",
@@ -78,7 +79,7 @@ function SignUpPage() {
         px: { xs: 2, sm: 0 },
       }}
     >
-      <Card sx={{ maxWidth: 410, borderRadius: 3, boxShadow: 3 }}>
+      <Card sx={{ maxWidth: 410, borderRadius: 3, boxShadow: 5 }}>
         <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
           <Typography variant="h5" textAlign="center" fontWeight="bold" mb={1} fontSize={{ xs: "1.4rem", sm: "1.6rem" }}>
             Own Your Day with Tasky
@@ -141,14 +142,16 @@ function SignUpPage() {
               required
               value={pass}
               onChange={(e) => setPass(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPass((prev) => !prev)} edge="end">
-                      {showPass ? <FaRegFaceRollingEyes /> : <PiSmileyXEyes />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPass((prev) => !prev)} edge="end">
+                        {showPass ? <FaRegFaceRollingEyes /> : <PiSmileyXEyes />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
             <TextField
@@ -161,14 +164,16 @@ function SignUpPage() {
               required
               value={confirmPass}
               onChange={(e) => setConfirmPass(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowConfirmPass((prev) => !prev)} edge="end">
-                      {showConfirmPass ? <FaRegFaceRollingEyes /> : <PiSmileyXEyes />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowConfirmPass((prev) => !prev)} edge="end">
+                        {showConfirmPass ? <FaRegFaceRollingEyes /> : <PiSmileyXEyes />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
               }}
             />
             <Button
