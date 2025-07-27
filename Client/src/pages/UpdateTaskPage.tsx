@@ -31,7 +31,7 @@ function UpdateTaskPage() {
       toast.error('Could not update Task')
     },
     onSuccess: (data) => {
-      toast.success('Task updated successfully', { theme: "light", position: "top-center" });
+      toast.success('Task updated successfully', { theme: "dark", position: "bottom-right" });
       setIsCompleted(data.isCompleted)
       navigate("/tasks")
     },

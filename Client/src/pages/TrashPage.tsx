@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 
 function TrashPage() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["get-tasks"],
+    queryKey: ["get-deleted-tasks"],
     queryFn: async () => {
       const response = await axiosInstance.get("/api/tasks");
       console.log(response.data);

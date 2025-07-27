@@ -136,14 +136,14 @@ export const deleteTask = async (req: Request, res: Response) => {
 export const restoreTask = async (req: Request, res: Response) => {
   try {
     const { id: userId } = req.user;
-    const { id: taskId } = req.params;
-
-    const task = await client.task.updateMany({
+    const { taskId } = req.params;
+    await client.task.update({
       where: { id: taskId, userId, isDeleted: true },
       data: { isDeleted: false }
     });
     res.status(200).json({ message: "Task restored successfully" });
   } catch (e) {
+    console.log(e)
     res.status(500).json({ message: "There was a hiccup on our end. Please try again." });
   }
 };

@@ -34,9 +34,29 @@ function TaskCard({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const { isPending: isRestoring, mutate: restoreTask } = useMutation({
+    mutationKey: ["restore-task"],
+    mutationFn: async (taskId: string) => {
+      const response = await axiosInstance.patch(
+        `/api/tasks/restore/${taskId}`
+      );
+      return response.data;
+    },
+    onError: () => {
+      toast.error("Could not restore task");
+    },
+    onSuccess: () => {
+      toast.success("Task restored successfully", {
+        theme: "dark",
+        position: "bottom-right",
+      });
+      queryClient.invalidateQueries({ queryKey: ["get-deleted-tasks"] });
+    },
+  });
+
   const { isPending, mutate } = useMutation({
     mutationKey: ["delete-task"],
-    mutationFn: async () => {
+    mutationFn: async (taskId: string) => {
       const response = await axiosInstance.delete(`/api/tasks/${taskId}`);
       return response.data;
     },
@@ -45,15 +65,24 @@ function TaskCard({
     },
     onSuccess: () => {
       toast.success("Task moved to trash", {
-        theme: "light",
-        position: "top-center",
+        theme: "dark",
+        position: "bottom-right",
       });
-      queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
+      queryClient.invalidateQueries({
+        queryKey: ["get-completed-tasks"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-tasks"],
+      });
     },
   });
 
-  function handleDeleteTask() {
-    mutate();
+  function handleRestoreTask(taskId: string) {
+    restoreTask(taskId);
+  }
+
+  function handleDeleteTask(taskId: string) {
+    mutate(taskId);
   }
 
   function handleUpdateTask() {
@@ -99,6 +128,8 @@ function TaskCard({
               startIcon={<LiaTrashRestoreAltSolid />}
               variant="contained"
               size="small"
+              onClick={() => handleRestoreTask(taskId)}
+              loading={isRestoring}
             >
               Restore
             </Button>
@@ -118,7 +149,7 @@ function TaskCard({
               startIcon={<MdOutlineDeleteForever />}
               variant="contained"
               size="small"
-              onClick={handleDeleteTask}
+              onClick={() => handleDeleteTask(taskId)}
               loading={isPending}
             >
               Delete
