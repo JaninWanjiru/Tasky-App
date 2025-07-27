@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/tasks", tasksRouter);
-app.use("/api/user", userRouter);
+app.use("/api", userRouter);
 
 app.get("/", (_req, res) => {
   res.send(`<h1>You've unlocked Jane's Tasky api</h1>`);

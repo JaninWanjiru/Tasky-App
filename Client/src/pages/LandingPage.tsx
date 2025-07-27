@@ -76,10 +76,10 @@ function LandingPage() {
           </Button>
         </Box>
       </Grid>
-      <Grid container spacing={5} justifyContent="center" p="0 2rem">
+      <Grid container spacing={5} justifyContent="center" p="0 2rem" mb="2rem">
         {features.map((feature, idx) => (
           <Grid size={{ sm: 6, md: 3 }} key={idx}>
-            <Card
+            <Card 
               sx={{ borderRadius: 6, textAlign: "center", boxShadow: 2, py: 3 }}
             >
               <CardContent>
