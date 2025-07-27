@@ -58,7 +58,7 @@ function LoggedInHeader({ user }: LoggedInHeaderProps) {
             to={link.path}
             style={{ textDecoration: "none" }}
           >
-            <Typography variant="body2" sx={{ color: "#273F4F" }}>
+            <Typography variant="body2" sx={{ color: "#273F4F", fontWeight: "bold" }}>
               {link.label}
             </Typography>
           </Link>
