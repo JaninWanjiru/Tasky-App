@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://tasky-app-zy17.onrender.com/api",
+  baseURL: "https://tasky-app-zy17.onrender.com",
   withCredentials: true,
 });
 // const axiosInstance = axios.create({
