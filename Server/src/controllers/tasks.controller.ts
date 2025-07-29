@@ -73,7 +73,7 @@ export const updateTask = async (req: Request, res: Response) => {
 export const completeTask = async (req: Request, res: Response) => {
   try {
     const { id: userId } = req.user;
-    const { id: taskId } = req.params;
+    const { taskId } = req.params;
     await client.task.updateMany({
       where: { id: taskId, userId, isDeleted: false, isCompleted: false },
       data: { isCompleted: true }
@@ -105,7 +105,7 @@ export const getCompletedTasks = async (req: Request, res: Response) => {
 export const incompleteTask = async (req: Request, res: Response) => {
   try {
     const { id: userId } = req.user;
-    const { id: taskId } = req.params;
+    const { taskId } = req.params;
     await client.task.updateMany({
       where: { id: taskId, userId, isDeleted: false, isCompleted: true },
       data: { isCompleted: false }

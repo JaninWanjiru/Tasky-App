@@ -13,8 +13,40 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 
 function UpdateTaskPage() {
+  const queryClient = useQueryClient();
+
+  const markAsCompletedMutation = useMutation({
+  mutationFn: async (taskId: string) => {
+    await axiosInstance.patch(`/api/tasks/complete/${taskId}`);
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
+    toast.success("Task marked as completed");
+    navigate("/tasks");
+  },
+  onError: () => {
+    toast.error("Failed to mark as completed");
+  },
+});
+
+const markAsIncompleteMutation = useMutation({
+  mutationFn: async (taskId: string) => {
+    await axiosInstance.patch(`/api/tasks/incomplete/${taskId}`);
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
+    toast.success("Task marked as incomplete");
+    navigate("/tasks");
+  },
+  onError: () => {
+    toast.error("Failed to mark as incomplete");
+  },
+});
+
+
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [isCompleted, setIsCompleted] = useState(false);
@@ -74,11 +106,15 @@ function UpdateTaskPage() {
   }
 
   function toggleTaskCompletion() {
-    mutate({ 
-      title,
-      description,
-      isCompleted: !isCompleted });
+  if (!taskId) return;
+
+  if (!isCompleted) {
+    markAsCompletedMutation.mutate(taskId);
+  } else {
+    markAsIncompleteMutation.mutate(taskId);
   }
+}
+
 
   return (
     <Box component="section" minHeight="100vh">

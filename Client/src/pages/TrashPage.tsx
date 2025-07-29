@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Alert, Grid } from "@mui/material";
 import TaskCard from "../components/TaskCard";
 import axiosInstance from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
@@ -29,43 +29,51 @@ function TrashPage() {
   }
   return (
     <Box component="section" mt={2} minHeight="100vh">
-      <Typography variant="h6" align="center" color="secondary">Items in trash will be deleted after 30 days</Typography>
       <Grid container justifyContent="center" spacing={4} m={3}>
-        {data && data.filter((task: {
-          id: string;
-          title: string;
-          description: string;
-          isDeleted: boolean;
-          isCompleted: boolean;
-        }) => task.isDeleted === true).length === 0 ? (
-          <Typography variant="h6" align="center">
-            No items in trash
-          </Typography>
+        <Alert severity="warning">
+          Items in trash will be deleted after 30 days
+        </Alert>
+        {data &&
+        data.filter(
+          (task: {
+            id: string;
+            title: string;
+            description: string;
+            isDeleted: boolean;
+            isCompleted: boolean;
+          }) => task.isDeleted === true
+        ).length === 0 ? (
+          <Alert severity="info">No items in Trash yet</Alert>
         ) : (
-          data && data
-            .filter((task: {
-              id: string;
-              title: string;
-              description: string;
-              isDeleted: boolean;
-              isCompleted: boolean;
-            }) => task.isDeleted === true)
-            .map((task: {
-              id: string;
-              title: string;
-              description: string;
-              isDeleted: boolean;
-              isCompleted: boolean;
-            }) => (
-              <TaskCard
-                key={task.id}
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                isDeleted={task.isDeleted}
-                isCompleted={task.isCompleted}
-              />
-            ))
+          data &&
+          data
+            .filter(
+              (task: {
+                id: string;
+                title: string;
+                description: string;
+                isDeleted: boolean;
+                isCompleted: boolean;
+              }) => task.isDeleted === true
+            )
+            .map(
+              (task: {
+                id: string;
+                title: string;
+                description: string;
+                isDeleted: boolean;
+                isCompleted: boolean;
+              }) => (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  description={task.description}
+                  isDeleted={task.isDeleted}
+                  isCompleted={task.isCompleted}
+                />
+              )
+            )
         )}
       </Grid>
     </Box>

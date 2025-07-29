@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Alert,  Grid } from "@mui/material";
 import TaskCard from "../components/TaskCard";
 import axiosInstance from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +26,9 @@ function CompletedTasksPage() {
   if (error) {
     return (
       <Box textAlign="center" py={4}>
-        <Typography variant="h6">Couldn't fetch completed tasks. Please try again later.</Typography>
+        <Typography variant="h6">
+          Couldn't fetch completed tasks. Please try again later.
+        </Typography>
       </Box>
     );
   }
@@ -38,7 +40,7 @@ function CompletedTasksPage() {
   return (
     <Box component="section" mt={2} minHeight="100vh">
       <Grid container justifyContent="center" spacing={4} m={3}>
-        {data &&
+        {data && data.length > 0 ? (
           data.map((task: Task) => (
             <TaskCard
               key={task.id}
@@ -48,7 +50,13 @@ function CompletedTasksPage() {
               isDeleted={task.isDeleted}
               isCompleted={task.isCompleted}
             />
-          ))}
+          ))
+        ) : (
+          <Alert severity="info" sx={{fontSize: 15}}>
+              {" "}
+              You haven't completed any tasks yet.
+            </Alert>
+        )}
       </Grid>
     </Box>
   );

@@ -1,10 +1,13 @@
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Alert, Button, Grid } from "@mui/material";
 import TaskCard from "../components/TaskCard";
 import axiosInstance from "../api/axios";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../components/Loader";
+import { useNavigate } from "react-router-dom";
 
 function TasksPage() {
+  const navigate = useNavigate();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-tasks"],
     queryFn: async () => {
@@ -30,41 +33,61 @@ function TasksPage() {
   return (
     <Box component="section" mt={2} minHeight="100vh">
       <Grid container justifyContent="center" spacing={4} m={3}>
-        {data && data.filter((task: {
-          id: string;
-          title: string;
-          description: string;
-          isDeleted: boolean;
-          isCompleted: boolean;
-        }) => task.isDeleted ===false && task.isCompleted ===false).length === 0 ? (
-          <Typography variant="h6" align="center" color="secondary">
-            No active tasks yet
-          </Typography>
+        {data &&
+        data.filter(
+          (task: {
+            id: string;
+            title: string;
+            description: string;
+            isDeleted: boolean;
+            isCompleted: boolean;
+          }) => task.isDeleted === false && task.isCompleted === false
+        ).length === 0 ? (
+          <Box>
+            <Alert severity="info" sx={{fontSize: 15}}>
+              {" "}
+              No active Tasks Yet. Let's change that
+            </Alert>
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              onClick={() => navigate("/new-task")}
+              sx={{ borderRadius: 2, mt: 3 }}
+            >
+              Create a Task
+            </Button>
+          </Box>
         ) : (
-          data && data
-            .filter((task: {
-              id: string;
-              title: string;
-              description: string;
-              isDeleted: boolean;
-              isCompleted: boolean;
-            }) => task.isDeleted ===false && task.isCompleted ===false)
-            .map((task: {
-              id: string;
-              title: string;
-              description: string;
-              isDeleted: boolean;
-              isCompleted: boolean;
-            }) => (
-              <TaskCard
-                key={task.id}
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                isDeleted={task.isDeleted}
-                isCompleted={task.isCompleted}
-              />
-            ))
+          data &&
+          data
+            .filter(
+              (task: {
+                id: string;
+                title: string;
+                description: string;
+                isDeleted: boolean;
+                isCompleted: boolean;
+              }) => task.isDeleted === false && task.isCompleted === false
+            )
+            .map(
+              (task: {
+                id: string;
+                title: string;
+                description: string;
+                isDeleted: boolean;
+                isCompleted: boolean;
+              }) => (
+                <TaskCard
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  description={task.description}
+                  isDeleted={task.isDeleted}
+                  isCompleted={task.isCompleted}
+                />
+              )
+            )
         )}
       </Grid>
     </Box>
