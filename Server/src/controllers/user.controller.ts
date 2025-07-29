@@ -69,3 +69,20 @@ export const updateUserDetails = async (req: Request, res: Response) => {
         res.status(500).json({ message: "There was a hiccup on our end. Please try again" });
     }
 } 
+
+// updating avatar
+export const updateAvatar = async (req: Request, res: Response) => {
+  const userId = req.user.id;
+  const { avatar } = req.body; // expects a Cloudinary URL
+
+  try {
+    const updatedUser = await client.user.update({
+      where: { id: userId },
+      data: { avatar },
+    });
+
+    res.status(200).json(updatedUser);
+  } catch (e) {
+    res.status(500).json({ message: "Error updating avatar" });
+  }
+}

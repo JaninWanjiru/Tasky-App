@@ -18,6 +18,7 @@ import useUser from "../store/userStore";
 import { toast } from "react-toastify";
 import { FaRegFaceRollingEyes } from "react-icons/fa6";
 import { PiSmileyXEyes } from "react-icons/pi";
+import AvatarUploader from "../components/avatar";
 
 function ProfilePage() {
   const { logoutUser } = useUser();
@@ -29,6 +30,8 @@ function ProfilePage() {
     username: "",
     email: "",
   });
+
+  // const [avatarUrl, setAvatarUrl] = useState<string | undefined>(user?.avatar);
   const [passwords, setPasswords] = useState({ current: "", new: "" });
   const [error, setError] = useState("");
 
@@ -124,14 +127,17 @@ function ProfilePage() {
       }}
     >
       <Card elevation={3} sx={{ borderRadius: 3, my: 5, maxWidth: 500 }}>
-        <CardContent sx={{ p: 4 }}>
+        <CardContent sx={{ px: 4 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-            <Avatar sx={{ width: 80, height: 80, mr: 2 }}>
-              {user?.firstName?.[0]}
-              {user?.lastName?.[0]}
+            <Avatar
+              src={user?.avatar || undefined}
+              sx={{ width: 80, height: 80, mr: 2 }}
+            >
+              {!user?.avatar &&
+                `${user?.firstName?.[0] || ""}${user?.lastName?.[0] || ""}`}
             </Avatar>
             <Box>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography fontWeight="bold">
                 {user?.firstName} {user?.lastName}
               </Typography>
               <Typography color="text.secondary">{user?.email}</Typography>
@@ -196,7 +202,9 @@ function ProfilePage() {
             update Profile
           </Button>
 
-          <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+          <AvatarUploader />
+
+          <Typography variant="h6" fontWeight="bold" sx={{ my: 2 }}>
             Update Password
           </Typography>
           <TextField
